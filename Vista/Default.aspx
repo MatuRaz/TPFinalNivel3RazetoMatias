@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Vista.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:ScriptManager ID="scp1" runat="server" />
@@ -24,9 +25,21 @@
 
 
         <div class="col">
+            <%if (SinResultado)
+                {%>
+            <div class="content" style="display: grid; place-items: center">
+                <h5 class="mb-3">No hay resultados.</h5>
+                <h6 class="mb-3">Por favor intenta con otro criterio.</h6>
+            </div>
+            <% } %>
+
+            <%else
+                {%>
             <div class="content" style="display: grid; place-items: center">
                 <h3 class="mb-3">Productos</h3>
             </div>
+            <%} %>
+
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 <asp:Repeater ID="rep1" runat="server">
                     <ItemTemplate>
@@ -42,7 +55,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <a href="Detalle.aspx" class="btn btn-primary">Detalle</a>
+                                                 <asp:Button Text="Detalle" CssClass="btn btn-primary" ID="DetalleId" CommandArgument='<%# Eval("Id")%>' CommandName="ArticuloId" OnClick="DetalleId_Click" runat="server" />
                                             </div>
                                             <div class="col mb-3" style="display: grid; place-items: end">
                                                 <asp:CheckBox Text="" CssClass="" runat="server" />

@@ -11,7 +11,7 @@ namespace Vista
 {
     public partial class Default : System.Web.UI.Page
     {
-
+        public bool SinResultado { get; set; }
         List<Articulo> ListaArticulos;
         List<Articulo> FiltroRapido;
 
@@ -46,9 +46,14 @@ namespace Vista
             string filtro = txbFiltro.Text;
             FiltroRapido = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(filtro.ToLower()));
 
-
             rep1.DataSource = FiltroRapido;
             rep1.DataBind();
+
+            if (FiltroRapido.Count == 0)
+            {
+                SinResultado = true;
+
+            }
 
         }
 
@@ -90,6 +95,28 @@ namespace Vista
 
             rep1.DataSource = FiltroRapido;
             rep1.DataBind();
+        }
+
+        protected void DetalleId_Click(object sender, EventArgs e)
+        {
+            Articulo seleccionado = new Articulo();
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            try
+            {
+                string id = ((Button)sender).CommandArgument;
+
+                seleccionado = (negocio.Listar(id))[0];
+                Session.Add("articulo", seleccionado);
+
+                Response.Redirect("Detalle.aspx?=id" + id, false);
+
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.ToString());
+                Response.Redirect("Error.aspx");
+            }
         }
     }
 }
