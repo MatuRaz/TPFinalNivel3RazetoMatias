@@ -24,7 +24,6 @@ namespace Vista
             {
                 if (!IsPostBack)
                 {
-
                     Session.Add("ListaArticulo", negocio.Listar());
                     rep1.DataSource = Session["ListaArticulo"];
                     rep1.DataBind();
@@ -43,11 +42,21 @@ namespace Vista
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             ListaArticulos = (List<Articulo>)Session["ListaArticulo"];
-            string filtro = txbFiltro.Text;
-            FiltroRapido = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(filtro.ToLower()));
 
-            rep1.DataSource = FiltroRapido;
-            rep1.DataBind();
+            try
+            {
+                string filtro = txbFiltro.Text;
+                FiltroRapido = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(filtro.ToLower()));
+
+                rep1.DataSource = FiltroRapido;
+                rep1.DataBind();
+
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.ToString());
+                Response.Redirect("Error.aspx");
+            }
 
             if (FiltroRapido.Count == 0)
             {

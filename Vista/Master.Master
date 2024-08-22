@@ -11,7 +11,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form style="padding-bottom: 15em; position: relative; min-height: 100vh;" id="form1" runat="server">
         <header>
             <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
                 <div class="container-fluid">
@@ -45,13 +45,63 @@
                 </div>
             </nav>
         </header>
-        <footer>
-        </footer>
         <div class="container">
             <hr />
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
+        <footer>
+            <div class="row">
+                <div class="col bg-dark" style="position: absolute; bottom: 0">
+                    <div class="col text-md-center mt-4" style="display: flex;">
+                        <div class="container">
+                            <label class="border-bottom" style="color: azure; font-size: 20px">Informacion</label>
+                            <div class="col mt-2">
+                                <label style="color: azure; font-size: 15px">Realizá tu compra online y recibila en tu domicilio o retirá por nuestro local en Almagro</label>
+                            </div>
+                            <div class="col">
+                                <label style="color: azure; font-size: 15px">Atención telefónica: (xxx) xxxx-xxxx</label>
+                            </div>
+                            <div class="col">
+                                <label style="color: azure; font-size: 15px">Whatsapp: +xx x xx-xxxx-xxxx</label>
+                            </div>
+                        </div>
+                        <div class="container" style="width: 50%">
+                            <label class="border-bottom" style="color: azure; font-size: 20px">Nosotros</label>
+                            <label class="mt-2" style="color: azure; font-size: 15px">En TecnoStore buscamos destacar por nuestro conocimiento e intentamos establecernos como la opción ideal para sus compras de tecnología. Todos nuestros vendedores se encuentran altamente capacitados para asesorarlo y ofrecerle exactamente lo que necesita.</label>
+                            <div class="mt-4"></div>
+                        </div>
+                        <div class="container">
+                            <label class="border-bottom" style="color: azure; font-size: 20px">Contactate</label>
+                            <div class="col mt-2">
+                                <div class="col">
+                                    <label style="color: azure; font-size: 15px">E-mail: xxxx@xxxx.com.ar</label>
+                                </div>
+                                <div class="col">
+                                    <label style="color: azure; font-size: 15px">Teléfono: (xxx) xxxx-xxxx</label>
+                                </div>
+                                <div class="col">
+                                    <label style="color: azure; font-size: 15px">Whatsapp: +xx x xx-xxxx-xxxx</label>
+                                </div>
+                                <div class="col">
+                                    <label style="color: azure; font-size: 15px">Horario de Atención: Lunes a viernes de 9:30 a 18:30 hs. Sábados de 10 a 13 hs.</label>
+                                </div>
+                                <div class="col">
+                                    <label style="color: azure; font-size: 15px">Soporte: xxxxxxxxx.com.ar</label>
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </footer>
     </form>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
