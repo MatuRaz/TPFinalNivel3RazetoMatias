@@ -26,7 +26,7 @@
         <div class="col">
             <%if (SinResultado)
                 {%>
-            <div class="content mb-3" style="display: grid; place-items: center">
+            <div class="content" style="display: grid; place-items: center">
                 <h5 class="mb-3">No hay resultados.</h5>
                 <h6 class="mb-3">Por favor intenta con otro criterio.</h6>
             </div>
@@ -34,8 +34,26 @@
 
             <%else
                 {%>
-            <div class="content" style="display: grid; place-items: center">
-                <h3 class="mb-3">Productos</h3>
+            <div class="content" style="display: grid; place-items: center;">
+                <div class="btn-group" style="display: flex">
+                    <div class="col me-5">
+                        <h3 class="mb-3">Productos</h3>
+                    </div>
+                    <div class="col offset-11">
+                        <button class="btn btn-sm dropdown-toggle blockquote" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Ordenar
+                        </button>
+                        <ul class="dropdown-menu">
+
+
+                            <li class="dropdown-item">
+                                <asp:Button ID="btnOMenor" CssClass="btn btn-light" Text="Menor Precio" OnClick="btnOMenor_Click" runat="server" />
+                            </li>
+                            <li class="dropdown-item">
+                                <asp:Button ID="btnOMayor" CssClass="btn btn-light" Text="Mayor Precio" OnClick="btnOMayor_Click" runat="server" />
+                        </ul>
+                    </div>
+                </div>
             </div>
             <%} %>
 

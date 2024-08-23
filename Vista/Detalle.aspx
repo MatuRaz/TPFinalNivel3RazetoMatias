@@ -51,7 +51,7 @@
             </div>
         </div>
         <div class="col">
-            <label class="me-4">Garantia de 1 año</label><label class="me-4">Caja y accesorios incluidos</label><label>Cuanta con seguro de envio</label>
+            <label class="me-4">Garantia de 1 año</label><label class="me-4">Caja y accesorios incluidos</label><label>Cuenta con seguro de envio</label>
         </div>
     </div>
 </asp:Content>

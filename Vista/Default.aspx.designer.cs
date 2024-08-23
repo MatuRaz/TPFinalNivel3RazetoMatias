@@ -78,6 +78,24 @@ namespace Vista
         protected global::System.Web.UI.WebControls.Button btnAudio;
 
         /// <summary>
+        /// Control btnOMenor.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOMenor;
+
+        /// <summary>
+        /// Control btnOMayor.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOMayor;
+
+        /// <summary>
         /// Control rep1.
         /// </summary>
         /// <remarks>

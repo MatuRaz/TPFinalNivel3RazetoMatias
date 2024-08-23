@@ -22,10 +22,11 @@ namespace Vista
 
             try
             {
+                Session.Add("ListaArticulo", negocio.Listar());
+                ListaArticulos = (List<Articulo>)Session["ListaArticulo"];
                 if (!IsPostBack)
                 {
-                    Session.Add("ListaArticulo", negocio.Listar());
-                    rep1.DataSource = Session["ListaArticulo"];
+                    rep1.DataSource = ListaArticulos;
                     rep1.DataBind();
                 }
 
@@ -41,12 +42,14 @@ namespace Vista
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            ListaArticulos = (List<Articulo>)Session["ListaArticulo"];
+
 
             try
             {
+                Session.Remove("ListaArticulosCategorias");
                 string filtro = txbFiltro.Text;
                 FiltroRapido = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(filtro.ToLower()));
+                Session.Add("ListaArticulosFiltro", FiltroRapido);
 
                 rep1.DataSource = FiltroRapido;
                 rep1.DataBind();
@@ -68,9 +71,9 @@ namespace Vista
 
         protected void btnCelulares_Click(object sender, EventArgs e)
         {
-            ListaArticulos = (List<Articulo>)Session["ListaArticulo"];
-            FiltroRapido = ListaArticulos.FindAll(x => x.Categoria.Descripcion == "Celulares");
 
+            FiltroRapido = ListaArticulos.FindAll(x => x.Categoria.Descripcion == "Celulares");
+            Session.Add("ListaArticulosCategorias", FiltroRapido);
 
             rep1.DataSource = FiltroRapido;
             rep1.DataBind();
@@ -78,9 +81,9 @@ namespace Vista
 
         protected void btnTelevisores_Click(object sender, EventArgs e)
         {
-            ListaArticulos = (List<Articulo>)Session["ListaArticulo"];
-            FiltroRapido = ListaArticulos.FindAll(x => x.Categoria.Descripcion == "Televisores");
 
+            FiltroRapido = ListaArticulos.FindAll(x => x.Categoria.Descripcion == "Televisores");
+            Session.Add("ListaArticulosCategorias", FiltroRapido);
 
             rep1.DataSource = FiltroRapido;
             rep1.DataBind();
@@ -88,9 +91,9 @@ namespace Vista
 
         protected void btnMedia_Click(object sender, EventArgs e)
         {
-            ListaArticulos = (List<Articulo>)Session["ListaArticulo"];
-            FiltroRapido = ListaArticulos.FindAll(x => x.Categoria.Descripcion == "Media");
 
+            FiltroRapido = ListaArticulos.FindAll(x => x.Categoria.Descripcion == "Media");
+            Session.Add("ListaArticulosCategorias", FiltroRapido);
 
             rep1.DataSource = FiltroRapido;
             rep1.DataBind();
@@ -98,9 +101,9 @@ namespace Vista
 
         protected void btnAudio_Click(object sender, EventArgs e)
         {
-            ListaArticulos = (List<Articulo>)Session["ListaArticulo"];
-            FiltroRapido = ListaArticulos.FindAll(x => x.Categoria.Descripcion == "Audio");
 
+            FiltroRapido = ListaArticulos.FindAll(x => x.Categoria.Descripcion == "Audio");
+            Session.Add("ListaArticulosCategorias", FiltroRapido);
 
             rep1.DataSource = FiltroRapido;
             rep1.DataBind();
@@ -125,6 +128,59 @@ namespace Vista
             {
                 Session.Add("Error", ex.ToString());
                 Response.Redirect("Error.aspx");
+            }
+        }
+
+        protected void btnOMenor_Click(object sender, EventArgs e)
+        {
+            List<Articulo> listaFiltroRapido = (List<Articulo>)Session["ListaArticulosFiltro"];
+            List<Articulo> lista = (List<Articulo>)Session["ListaArticulosCategorias"];
+
+            if (lista != null)
+            {
+                FiltroRapido = lista.OrderBy(x => x.Precio).ToList();
+                rep1.DataSource = FiltroRapido;
+                rep1.DataBind();
+
+            }
+            else if (listaFiltroRapido != null)
+            {
+                FiltroRapido = listaFiltroRapido.OrderBy(x => x.Precio).ToList();
+                rep1.DataSource = FiltroRapido;
+                rep1.DataBind();
+            }
+            else
+            {
+                FiltroRapido = ListaArticulos.OrderBy(x => x.Precio).ToList();
+                rep1.DataSource = FiltroRapido;
+                rep1.DataBind();
+            }
+
+        }
+
+        protected void btnOMayor_Click(object sender, EventArgs e)
+        {
+            List<Articulo> listaFiltroRapido = (List<Articulo>)Session["ListaArticulosFiltro"];
+            List<Articulo> listaCategoria = (List<Articulo>)Session["ListaArticulosCategorias"];
+
+            if (listaCategoria != null)
+            {
+                FiltroRapido = listaCategoria.OrderByDescending(x => x.Precio).ToList();
+                rep1.DataSource = FiltroRapido;
+                rep1.DataBind();
+
+            }
+            else if (listaFiltroRapido != null)
+            {
+                FiltroRapido = listaFiltroRapido.OrderByDescending(x => x.Precio).ToList();
+                rep1.DataSource = FiltroRapido;
+                rep1.DataBind();
+            }
+            else
+            {
+                FiltroRapido = ListaArticulos.OrderByDescending(x => x.Precio).ToList();
+                rep1.DataSource = FiltroRapido;
+                rep1.DataBind();
             }
         }
     }
