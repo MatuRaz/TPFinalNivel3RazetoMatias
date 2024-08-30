@@ -61,7 +61,7 @@
                 <asp:Repeater ID="rep1" runat="server">
                     <ItemTemplate>
                         <div class="col">
-                            <div class="card text-bg-light mb-3 shadow alert alert-dark" style="width: 18rem;">
+                            <div class="card border-dark card text-bg-light mb-3 me-2 shadow alert alert-dark" style="width: 18rem;">
                                 <img src="<%# Eval("ImagenUrl")%>" class="card-img-top" height="250" alt="Articulo">
                                 <div class="card-body">
                                     <div class="row">

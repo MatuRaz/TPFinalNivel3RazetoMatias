@@ -52,7 +52,7 @@
         </div>
         <footer>
             <div class="row">
-                <div class="col bg-dark" style="position: absolute; bottom: 0">
+                <div class="col bg-dark" style="position: absolute; bottom: 0;">
                     <div class="col text-md-center mt-4" style="display: flex;">
                         <div class="container">
                             <label class="border-bottom" style="color: azure; font-size: 20px">Informacion</label>
