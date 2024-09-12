@@ -26,8 +26,11 @@
         <div class="col">
             <%if (SinResultado)
                 {%>
-            <div class="content" style="display: grid; place-items: center">
-                <h5 class="mb-3">No hay resultados.</h5>
+            <div class="content  mt-4" style="display: grid; place-items: center">
+                <div style="display: flex">
+                    <h5 class="mb-3 me-2">No hay resultados para</h5>
+                    <asp:Label CssClass="h5" ID="lblResultado" Text="" runat="server" />
+                </div>
                 <h6 class="mb-3">Por favor intenta con otro criterio.</h6>
             </div>
             <% } %>

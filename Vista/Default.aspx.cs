@@ -64,7 +64,7 @@ namespace Vista
             if (FiltroRapido.Count == 0)
             {
                 SinResultado = true;
-
+                lblResultado.Text = "'" + txbFiltro.Text + "'";
             }
 
         }

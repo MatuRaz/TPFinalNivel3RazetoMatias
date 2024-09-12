@@ -37,7 +37,9 @@ namespace Negocio
                     aux.Categoria = new Categoria();
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
                     aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
+                    decimal value = (decimal)datos.Lector["Precio"];
+                    int n = Convert.ToInt32(value);
+                    aux.Precio = n;
 
 
 
@@ -124,37 +126,25 @@ namespace Negocio
         {
             List<Articulo> lista = new List<Articulo>();
             string consulta = "select a.Id, Codigo, Nombre, a.Descripcion, m.Descripcion Marca, c.Descripcion Categoria, ImagenUrl, Precio from ARTICULOS a, MARCAS m, CATEGORIAS c where a.IdMarca = m.Id and a.IdCategoria = c.Id and ";
+
+            //marca y nombre
             try
             {
                 if (campo == "Codigo")
                 {
-                    if (criterio == "Igual")
-                    {
-                        consulta += "Codigo like'" + filtro + "'";
-                    }
-                    else if (criterio == "Empieza")
-                    {
-                        consulta += "Codigo like '" + filtro + "%'";
-                    }
-                    else if (criterio == "Termina")
-                    {
-                        consulta += "Codigo like '%" + filtro + "'";
-                    }
+                    consulta += "Codigo like'" + filtro + "'";
                 }
                 else if (campo == "Categoria")
                 {
-                    if (criterio == "Igual")
-                    {
-                        consulta += "c.Descripcion like '" + filtro + "'";
-                    }
-                    else if (criterio == "Empieza")
-                    {
-                        consulta += "c.Descripcion like '" + filtro + "%'";
-                    }
-                    else if (criterio == "Termina")
-                    {
-                        consulta += "c.Descripcion like '%" + filtro + "'";
-                    }
+                    consulta += "c.Descripcion like '" + criterio + "' and Nombre like '%" + filtro + "%'";
+                }
+                else if (campo == "Marca")
+                {
+                    consulta += "m.Descripcion like '" + criterio + "' and Nombre like '%" + filtro + "%'";
+                }
+                else if (campo == "Nombre")
+                {
+                    consulta += "Nombre like '%" + filtro + "%'";
                 }
                 else if (campo == "Precio")
                 {
@@ -178,7 +168,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Articulo aux = new Articulo();
-                    decimal auxx;
+                   
 
                     aux.Id = (int)datos.Lector["Id"];
                     aux.Codigo = (string)datos.Lector["Codigo"];
@@ -189,7 +179,9 @@ namespace Negocio
                     aux.Categoria = new Categoria();
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
                     aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
+                    decimal value = (decimal)datos.Lector["Precio"];
+                    int n = Convert.ToInt32(value);
+                    aux.Precio = n;
 
                     lista.Add(aux);
                 }
@@ -203,5 +195,6 @@ namespace Negocio
             finally { datos.CerrarConexion(); }
         }
 
+       
     }
 }

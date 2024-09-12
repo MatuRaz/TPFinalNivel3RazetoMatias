@@ -40,7 +40,7 @@
                     </div>
                     <div class="col">
                         <div class="col mb-3">
-                            <label class="form-check-label" for="flexCheckDefault">⭐ Agregar a Favorito</label>
+                            <label class="form-check-label" for="chkFavorito">⭐ Agregar a Favorito</label>
                             <asp:CheckBox ID="chkFavorito" Text="" runat="server" />
                         </div>
                     </div>
