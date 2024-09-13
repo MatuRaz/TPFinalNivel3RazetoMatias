@@ -10,10 +10,12 @@
             <div class="col mt-4" style="display: flex">
                 <asp:TextBox ID="txbFiltro" CssClass="form-label form-control" OnTextChanged="txbFiltro_TextChanged" AutoPostBack="true" placeholder="Buscá por nombre..." runat="server" />
             </div>
+            <asp:Button ID="btnAgregar" Text="Agregar Articulo" CssClass="btn btn-primary mt-1" OnClick="btnAgregar_Click" runat="server" />
             <div class="container-2">
                 <label class="col-form-label" for="chkFiltroAvanzado">Filtro Avanzado</label>
                 <asp:CheckBox ID="chkFiltroAvanzado" AutoPostBack="true" Text="" runat="server" />
             </div>
+
             <%if (chkFiltroAvanzado.Checked)
                 {%>
 
@@ -102,12 +104,20 @@
         </div>
         <%if (SinResultado)
             {%>
-        <div class="ccontent mt-1" style="display: grid; place-items: center">
-            <div style="display: flex">
-                <h5 class="mb-3 me-2">No hay resultados para</h5>
-                <asp:Label CssClass="h5" ID="lblResultado" Text="" runat="server" />
+        <div class="col-9 mt-4">
+            <div class="row-4">
+                <div class="col" style="display: grid; place-items: center">
+                    <div class="col" style="display: flex">
+                        <h5 class="mb-3 me-2">No hay resultados para</h5>
+                        <asp:Label CssClass="h5" ID="lblResultado" Text="No hay resultados para " runat="server" />
+                    </div>
+                    <div class="col">
+                        <h6 class="mb-3">Por favor intenta con otro criterio.</h6>
+                    </div>
+                </div>
             </div>
-            <h6 class="mb-3">Por favor intenta con otro criterio.</h6>
+
+
         </div>
         <% } %>
         <div class="col">
@@ -127,6 +137,10 @@
                     </asp:GridView>
                 </ContentTemplate>
             </asp:UpdatePanel>
+            <%if (!SinResultado)
+                { %>
+
+            <% }%>
         </div>
     </div>
 
