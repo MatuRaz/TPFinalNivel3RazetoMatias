@@ -109,15 +109,13 @@
                 <div class="col" style="display: grid; place-items: center">
                     <div class="col" style="display: flex">
                         <h5 class="mb-3 me-2">No hay resultados para</h5>
-                        <asp:Label CssClass="h5" ID="lblResultado" Text="No hay resultados para " runat="server" />
+                        <asp:Label CssClass="h5" ID="lblResultado" Text="" runat="server" />
                     </div>
                     <div class="col">
                         <h6 class="mb-3">Por favor intenta con otro criterio.</h6>
                     </div>
                 </div>
             </div>
-
-
         </div>
         <% } %>
         <div class="col">
@@ -137,10 +135,6 @@
                     </asp:GridView>
                 </ContentTemplate>
             </asp:UpdatePanel>
-            <%if (!SinResultado)
-                { %>
-
-            <% }%>
         </div>
     </div>
 

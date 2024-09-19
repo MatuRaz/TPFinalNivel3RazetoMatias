@@ -27,6 +27,7 @@ namespace Vista
         protected void Page_Load(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
+
             if (chkFiltroAvanzado.Checked)
             {
                 txbFiltro.Enabled = false;
@@ -67,19 +68,14 @@ namespace Vista
 
             if (!IsPostBack)
             {
-                chkNombre = false;
-                chkCodigo = false;
-                chkCategoria = false;
-                chkMarca = false;
-                chkPrecio = false;
-                Session.Remove("chkNombre");
-                Session.Remove("chkCodigo");
-                Session.Remove("chkCategoria");
-                Session.Remove("chkMarca");
-                Session.Remove("chkPrecio");
-
                 try
                 {
+                    Session.Remove("chkNombre");
+                    Session.Remove("chkCodigo");
+                    Session.Remove("chkCategoria");
+                    Session.Remove("chkMarca");
+                    Session.Remove("chkPrecio");
+
                     Session.Add("ListaArticulos", negocio.Listar());
                     ListaArticulo = (List<Articulo>)Session["ListaArticulos"];
                     gvArticulos.DataSource = ListaArticulo;
@@ -93,6 +89,7 @@ namespace Vista
                 }
             }
         }
+
 
         protected void gvArticulos_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -188,7 +185,7 @@ namespace Vista
 
                 if (chkFiltros.Checked)
                 {
-                    if (Session["chkNombre"] != null)
+                    if (chkNombre.ToString() != null)
                     {
                         FiltroAvanzado = negocio.FiltroAvanzado("Nombre", "", lblNombre.Text);
                     }
@@ -212,7 +209,7 @@ namespace Vista
                             FiltroAvanzado = FiltroAvanzado.FindAll(x => x.Precio.ToString() == (string)Session["txbFiltroPrecio"]);
                         else if ((string)Session["dllPrecio"] == "Menor")
                         {
-                            if (txbFiltroAvanzado.Text != "")
+                            if ((string)Session["txbFiltroPrecio"] != "")
                             {
                                 string value = (string)Session["txbFiltroPrecio"];
                                 int n = Convert.ToInt32(value);
@@ -224,7 +221,7 @@ namespace Vista
                         }
                         else if ((string)Session["dllPrecio"] == "Mayor")
                         {
-                            if (txbFiltroAvanzado.Text != "")
+                            if ((string)Session["txbFiltroPrecio"] != "")
                             {
                                 string value = (string)Session["txbFiltroPrecio"];
                                 int n = Convert.ToInt32(value);
@@ -238,6 +235,12 @@ namespace Vista
                 }
                 else
                 {
+                    if (dllCriterio.Text == "Mayor" && txbFiltroAvanzado.Text == "")
+                        txbFiltroAvanzado.Text = "0";
+                    else if (dllCriterio.Text == "Menor" && txbFiltroAvanzado.Text == "")
+                        txbFiltroAvanzado.Text = "2147483647";
+
+
                     FiltroAvanzado = negocio.FiltroAvanzado(dllCampo.Text, dllCriterio.Text, txbFiltroAvanzado.Text);
                     if (dllCriterio.Text == "Menor")
                         FiltroAvanzado = FiltroAvanzado.OrderBy(x => x.Precio).ToList();
@@ -253,8 +256,10 @@ namespace Vista
                 if (FiltroAvanzado.Count == 0)
                 {
                     SinResultado = true;
-                    lblResultado.Text = "'" + Session["txbFiltroAvanzado"].ToString() + "'";
+                    lblResultado.Text = "'" + txbFiltroAvanzado.Text + "'";
                 }
+
+                txbFiltroAvanzado.Text = "";
             }
             catch (Exception ex)
             {
