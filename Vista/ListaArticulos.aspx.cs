@@ -9,6 +9,7 @@ using System.Security.AccessControl;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Vista
 {
@@ -27,6 +28,7 @@ namespace Vista
         protected void Page_Load(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
+
 
             if (chkFiltroAvanzado.Checked)
             {
@@ -47,22 +49,27 @@ namespace Vista
                 if (Session["chkNombre"] != null)
                 {
                     chkNombre = (bool)Session["chkNombre"];
+                    lblNombre.Text = (string)Session["lblNombre"];
                 }
                 if (Session["chkCodigo"] != null)
                 {
                     chkCodigo = (bool)Session["chkCodigo"];
+                    lblCodigo.Text = (string)Session["lblCodigo"];
                 }
                 if (Session["chkCategoria"] != null)
                 {
                     chkCategoria = (bool)Session["chkCategoria"];
+                    lblCategoria.Text = (string)Session["lblCategoria"];
                 }
                 if (Session["chkMarca"] != null)
                 {
                     chkMarca = (bool)Session["chkMarca"];
+                    lblMarca.Text = (string)Session["lblMarca"];
                 }
                 if (Session["chkPrecio"] != null)
                 {
                     chkPrecio = (bool)Session["chkPrecio"];
+                    lblPrecio.Text = (string)Session["lblPrecio"];
                 }
             }
 
@@ -70,16 +77,37 @@ namespace Vista
             {
                 try
                 {
-                    Session.Remove("chkNombre");
-                    Session.Remove("chkCodigo");
-                    Session.Remove("chkCategoria");
-                    Session.Remove("chkMarca");
-                    Session.Remove("chkPrecio");
+                    if (Session["mensajeE"] == null)
+                        Session.Add("mensajeE", false);
+                    if (Session["mensajeM"] == null)
+                        Session.Add("mensajeM", false);
+                    if (Session["mensajeN"] == null)
+                        Session.Add("mensajeN", false);
 
                     Session.Add("ListaArticulos", negocio.Listar());
-                    ListaArticulo = (List<Articulo>)Session["ListaArticulos"];
+
+                    if (Session["ultimaBusqueda"] != null && ((List<Articulo>)Session["ultimaBusqueda"]).Count < 0)
+                    {
+                        ListaArticulo = (List<Articulo>)Session["ultimaBusqueda"];
+                        if (Session["ArticuloEliminado"] != null)
+                        {
+                            if ((bool)Session["ArticuloEliminado"] == true)
+                            {
+                                int indice;
+                                int id = (int)Session["idM"];
+                                indice = (ListaArticulo.FindIndex(x => x.Id == id));
+                                ListaArticulo.Remove(ListaArticulo[indice]);
+                                Session.Add("ArticuloEliminado", false);
+                            }
+                        }
+                    }
+                    else
+                        ListaArticulo = (List<Articulo>)Session["ListaArticulos"];
+
                     gvArticulos.DataSource = ListaArticulo;
                     gvArticulos.DataBind();
+
+
                     dllCriterio.Enabled = false;
                 }
                 catch (Exception ex)
@@ -90,10 +118,10 @@ namespace Vista
             }
         }
 
-
         protected void gvArticulos_SelectedIndexChanged(object sender, EventArgs e)
         {
             string id = gvArticulos.SelectedDataKey.Value.ToString();
+            Session.Add("idM", int.Parse(id));
             Response.Redirect("FormularioArticulo.aspx?id=" + id);
         }
 
@@ -131,6 +159,8 @@ namespace Vista
                     lblResultado.Text = "'" + txbFiltro.Text + "'";
                 }
                 txbFiltro.Text = "";
+
+                Session.Add("ultimaBusqueda", FiltroRapido);
             }
             catch (Exception ex)
             {
@@ -179,6 +209,7 @@ namespace Vista
         {
             try
             {
+                LogicaNegocio logicaNegocio = new LogicaNegocio();
                 ArticuloNegocio negocio = new ArticuloNegocio();
 
                 FiltroAvanzado = (List<Articulo>)Session["ListaArticulos"];
@@ -205,6 +236,9 @@ namespace Vista
                     }
                     if (Session["chkPrecio"] != null)
                     {
+
+                        if (logicaNegocio.hayLetras((string)Session["txbFiltroPrecio"]))
+                            return;
                         if ((string)Session["dllPrecio"] == "Igual")
                             FiltroAvanzado = FiltroAvanzado.FindAll(x => x.Precio.ToString() == (string)Session["txbFiltroPrecio"]);
                         else if ((string)Session["dllPrecio"] == "Menor")
@@ -235,13 +269,25 @@ namespace Vista
                 }
                 else
                 {
-                    if (dllCriterio.Text == "Mayor" && txbFiltroAvanzado.Text == "")
-                        txbFiltroAvanzado.Text = "0";
-                    else if (dllCriterio.Text == "Menor" && txbFiltroAvanzado.Text == "")
-                        txbFiltroAvanzado.Text = "2147483647";
-
+                    if (dllCriterio.Text == "Mayor" || dllCriterio.Text == "Menor")
+                    {
+                        if (dllCriterio.Text == "Mayor" && txbFiltroAvanzado.Text == "")
+                            txbFiltroAvanzado.Text = "0";
+                        else if (dllCriterio.Text == "Menor" && txbFiltroAvanzado.Text == "")
+                            txbFiltroAvanzado.Text = "2147483647";
+                        if (logicaNegocio.hayLetras(txbFiltroAvanzado.Text))
+                            return;
+                    }
+                    else if (dllCriterio.Text == "Igual")
+                    {
+                        if (txbFiltroAvanzado.Text == "")
+                            return;
+                        else if (logicaNegocio.hayLetras(txbFiltroAvanzado.Text))
+                            return;
+                    }
 
                     FiltroAvanzado = negocio.FiltroAvanzado(dllCampo.Text, dllCriterio.Text, txbFiltroAvanzado.Text);
+
                     if (dllCriterio.Text == "Menor")
                         FiltroAvanzado = FiltroAvanzado.OrderBy(x => x.Precio).ToList();
                     else if (dllCriterio.Text == "Mayor")
@@ -249,6 +295,7 @@ namespace Vista
                 }
 
                 Session.Add("FiltroAvanzado", FiltroAvanzado);
+                Session.Add("ultimaBusqueda", FiltroAvanzado);
 
                 gvArticulos.DataSource = FiltroAvanzado;
                 gvArticulos.DataBind();
@@ -281,9 +328,8 @@ namespace Vista
                 if (!string.IsNullOrEmpty(txbFiltroAvanzado.Text))
                 {
                     lblNombre.Text = txbFiltroAvanzado.Text;
+                    Session.Add("lblNombre", lblNombre.Text);
                 }
-                else
-                    lblNombre.Text = txbFiltroAvanzado.Text;
             }
             else if (dllCampo.Text == "Codigo")
             {
@@ -292,9 +338,10 @@ namespace Vista
                 chkCodigo = true;
                 Session.Add("chkCodigo", chkCodigo);
                 if (!string.IsNullOrEmpty(txbFiltroAvanzado.Text))
+                {
                     lblCodigo.Text = txbFiltroAvanzado.Text;
-                else
-                    lblNombre.Text = txbFiltroAvanzado.Text;
+                    Session.Add("lblCodigo", lblCodigo.Text);
+                }
             }
             else if (dllCampo.Text == "Categoria")
             {
@@ -304,6 +351,7 @@ namespace Vista
                 Session.Add("chkCategoria", chkCategoria);
                 Session.Add("dllCategoria", dllCriterio.Text);
                 lblCategoria.Text = dllCriterio.Text;
+                Session.Add("lblCategoria", lblCategoria.Text);
             }
             else if (dllCampo.Text == "Marca")
             {
@@ -313,6 +361,7 @@ namespace Vista
                 Session.Add("chkMarca", chkMarca);
                 Session.Add("dllMarca", dllCriterio.Text);
                 lblMarca.Text = dllCriterio.Text;
+                Session.Add("lblMarca", lblMarca.Text);
             }
             else if (dllCampo.Text == "Precio")
             {
@@ -323,6 +372,7 @@ namespace Vista
                 Session.Add("dllPrecio", dllCriterio.Text);
                 Session.Add("txbFiltroPrecio", txbFiltroAvanzado.Text);
                 lblPrecio.Text = dllCriterio.Text + " a " + (string)Session["txbFiltroPrecio"];
+                Session.Add("lblPrecio", lblPrecio.Text);
             }
             Session.Add("txbFiltroAvanzado", txbFiltroAvanzado.Text);
             txbFiltroAvanzado.Text = "";
@@ -332,30 +382,35 @@ namespace Vista
         {
             Session.Remove("chkNombre");
             chkNombre = false;
+            lblNombre.Text = "";
         }
 
         protected void btnEFCodigo_Click(object sender, EventArgs e)
         {
             Session.Remove("chkCodigo");
             chkCodigo = false;
+            lblCodigo.Text = "";
         }
 
         protected void btnEFCategtoria_Click(object sender, EventArgs e)
         {
             Session.Remove("chkCategoria");
             chkCategoria = false;
+            lblCategoria.Text = "";
         }
 
         protected void btnEFMarca_Click(object sender, EventArgs e)
         {
             Session.Remove("chkMarca");
             chkMarca = false;
+            lblMarca.Text = "";
         }
 
         protected void btnEFPrecio_Click(object sender, EventArgs e)
         {
             Session.Remove("chkPrecio");
             chkPrecio = false;
+            lblPrecio.Text = "";
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)

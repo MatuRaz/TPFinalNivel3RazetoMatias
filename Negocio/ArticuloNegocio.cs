@@ -17,7 +17,7 @@ namespace Negocio
 
             try
             {
-                string consulta = "select IdCategoria, a.Id, Codigo, Nombre, a.Descripcion, m.Descripcion Marca, c.Descripcion Categoria, ImagenUrl, Precio from ARTICULOS a, MARCAS m, CATEGORIAS c where a.IdMarca = m.Id and a.IdCategoria = c.Id";
+                string consulta = "select IdCategoria, IdMarca, a.Id, Codigo, Nombre, a.Descripcion, m.Descripcion Marca, c.Descripcion Categoria, ImagenUrl, Precio from ARTICULOS a, MARCAS m, CATEGORIAS c where a.IdMarca = m.Id and a.IdCategoria = c.Id";
                 if (id != "")
                     consulta += " and a.Id = " + id;
 
@@ -34,8 +34,10 @@ namespace Negocio
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Marca = new Marca();
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
+                    aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Categoria = new Categoria();
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
+                    aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
                     aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
                     decimal value = (decimal)datos.Lector["Precio"];
                     int n = Convert.ToInt32(value);

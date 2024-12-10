@@ -71,7 +71,9 @@
     <Content Include="Detalle.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="FormularioArticulo.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="ListaArticulos.aspx" />
+    <Content Include="Perfil.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +105,9 @@
     <Compile Include="FormularioArticulo.aspx.designer.cs">
       <DependentUpon>FormularioArticulo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="ListaArticulos.aspx.cs">
       <DependentUpon>ListaArticulos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -116,6 +121,13 @@
     </Compile>
     <Compile Include="Master.Master.designer.cs">
       <DependentUpon>Master.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Perfil.aspx.cs">
+      <DependentUpon>Perfil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Perfil.aspx.designer.cs">
+      <DependentUpon>Perfil.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

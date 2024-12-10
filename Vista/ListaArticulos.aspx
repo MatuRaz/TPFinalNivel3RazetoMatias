@@ -95,6 +95,7 @@
                 <div class="row">
                     <div class="col">
                         <asp:TextBox ID="txbFiltroAvanzado" CssClass="form-control mt-2" placeholder="Filtro..." runat="server" />
+
                         <asp:Button ID="btnBuscar" Text="Buscar" CssClass="btn btn-primary mt-3" OnClick="btnBuscar_Click" runat="server" />
                     </div>
                 </div>
@@ -138,5 +139,76 @@
         </div>
     </div>
 
-
+    <%if ((bool)Session["mensajeE"] == true)
+        {%>
+    <script>    
+        document.addEventListener("DOMContentLoaded", function () {
+            var myModal = new bootstrap.Modal(document.getElementById('demo'));
+            myModal.show();
+        });
+    </script>
+    <div class="modal fade" id="demo" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Eliminado Correctamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%}
+        Session.Add("mensajeE", false);
+    %>
+    <%if ((bool)Session["mensajeM"] == true)
+        {%>
+    <script>    
+        document.addEventListener("DOMContentLoaded", function () {
+            var myModal = new bootstrap.Modal(document.getElementById('demo1'));
+            myModal.show();
+        });
+    </script>
+    <div class="modal fade" id="demo1" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel1">Modificado Correctamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%}
+        Session.Add("mensajeM", false);
+    %>
+    <%if ((bool)Session["mensajeN"] == true)
+        {%>
+    <script>    
+        document.addEventListener("DOMContentLoaded", function () {
+            var myModal = new bootstrap.Modal(document.getElementById('demo2'));
+            myModal.show();
+        });
+    </script>
+    <div class="modal fade" id="demo2" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel2">Agregado Correctamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%}
+        Session.Add("mensajeN", false);
+    %>
 </asp:Content>
