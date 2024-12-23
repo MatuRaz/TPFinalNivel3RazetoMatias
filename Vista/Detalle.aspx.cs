@@ -8,7 +8,10 @@ namespace Vista
 {
     public partial class Detalle : System.Web.UI.Page
     {
+        bool FavoritoAlmacenado;
+        List<Favorito> ListaFavoritos;
         List<Articulo> listaArticulo;
+        List<Favorito> FiltroRapido;
         List<Articulo> ListaNueva;
         List<Articulo> Lista3 = new List<Articulo>();
 
@@ -19,10 +22,32 @@ namespace Vista
             {
                 if (Session["articulo"] == null)
                     Response.Redirect("Default.aspx");
+                if (!SeguridadNegocio.SesionActiva(Session["Usuario"]))
+                    Response.Redirect("Login.aspx");
 
                 try
                 {
-                    Articulo articulo = (Articulo)Session["articulo"];
+                    FavoritoNegocio negocio = new FavoritoNegocio();
+                    UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                    Usuario usuario = (Usuario)Session["Usuario"];
+                    Articulo articulo = (Articulo)Session["Articulo"];
+                    ListaFavoritos = negocio.Listar(usuario.Id);
+                    if (SeguridadNegocio.SesionActiva(Session["Usuario"]))
+                    {
+                        FiltroRapido = ListaFavoritos.FindAll(x => x.IdArticulo == articulo.Id);
+
+                        if (FiltroRapido.Count != 0)
+                        {
+                            FavoritoAlmacenado = true;
+                            chkFavorito.Checked = true;
+                        }
+                        else
+                        {
+                            FavoritoAlmacenado = false;
+                            chkFavorito.Checked = false;
+                        }
+                        Session.Add("FavoritoAlmacenado", FavoritoAlmacenado);
+                    }
 
                     if (articulo.ImagenUrl == "" || articulo.ImagenUrl == null)
                         imgArticulo.ImageUrl = "https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg";
@@ -76,70 +101,86 @@ namespace Vista
             }
         }
 
-
         protected void btnSiguiente_Click(object sender, EventArgs e)
         {
-
-            if (Session["Lista3"] != null)
+            try
             {
-                int contador = 0;
-
-                Articulo articulo = (Articulo)Session["Lista3"];
-                ListaNueva = (List<Articulo>)Session["ListaNueva"];
-                int indice = ListaNueva.FindIndex(x => x.Id == articulo.Id);
-
-                contador = indice + 1;
-
-                int resto = ListaNueva.Count % 3;
-
-                if (contador < (((ListaNueva.Count) - 1) - resto))
+                if (Session["Lista3"] != null)
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (contador < (((ListaNueva.Count) - 1) - resto))
-                        {
-                            contador++;
-                            Lista3.Add(ListaNueva[contador]);
+                    int contador = 0;
 
+                    Articulo articulo = (Articulo)Session["Lista3"];
+                    ListaNueva = (List<Articulo>)Session["ListaNueva"];
+                    int indice = ListaNueva.FindIndex(x => x.Id == articulo.Id);
+
+                    contador = indice + 1;
+
+                    int resto = ListaNueva.Count % 3;
+
+                    if (contador < (((ListaNueva.Count) - 1) - resto))
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            if (contador < (((ListaNueva.Count) - 1) - resto))
+                            {
+                                contador++;
+                                Lista3.Add(ListaNueva[contador]);
+
+                            }
                         }
+                        rep1.DataSource = Lista3;
+                        rep1.DataBind();
+                        Session.Add("Lista3", Lista3[1]);
                     }
-                    rep1.DataSource = Lista3;
-                    rep1.DataBind();
-                    Session.Add("Lista3", Lista3[1]);
                 }
             }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.ToString());
+                Response.Redirect("Error.aspx");
+            }
+
         }
         protected void brnPrevio_Click(object sender, EventArgs e)
         {
-            if (Session["Lista3"] != null)
+            try
             {
-                int contador = 0;
-
-                Articulo articulo = (Articulo)Session["Lista3"];
-                ListaNueva = (List<Articulo>)Session["ListaNueva"];
-                int indice = ListaNueva.FindIndex(x => x.Id == articulo.Id);
-
-                contador = indice - 1;
-
-                int resto = ListaNueva.Count % 3;
-
-                if (contador != 0)
+                if (Session["Lista3"] != null)
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (contador != 0)
-                        {
-                            contador--;
-                            Lista3.Add(ListaNueva[contador]);
+                    int contador = 0;
 
+                    Articulo articulo = (Articulo)Session["Lista3"];
+                    ListaNueva = (List<Articulo>)Session["ListaNueva"];
+                    int indice = ListaNueva.FindIndex(x => x.Id == articulo.Id);
+
+                    contador = indice - 1;
+
+                    int resto = ListaNueva.Count % 3;
+
+                    if (contador != 0)
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            if (contador != 0)
+                            {
+                                contador--;
+                                Lista3.Add(ListaNueva[contador]);
+
+                            }
                         }
+                        Lista3.Reverse();
+                        rep1.DataSource = Lista3;
+                        rep1.DataBind();
+                        Session.Add("Lista3", Lista3[1]);
                     }
-                    Lista3.Reverse();
-                    rep1.DataSource = Lista3;
-                    rep1.DataBind();
-                    Session.Add("Lista3", Lista3[1]);
                 }
             }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.ToString());
+                Response.Redirect("Error.aspx");
+            }
+
         }
 
         protected void DetalleId_Click(object sender, EventArgs e)
@@ -156,6 +197,29 @@ namespace Vista
 
                 Response.Redirect("Detalle.aspx?=id" + id, false);
 
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.ToString());
+                Response.Redirect("Error.aspx");
+            }
+        }
+        protected void chkFavorito_CheckedChanged(object sender, EventArgs e)
+        {
+            FavoritoNegocio negocio = new FavoritoNegocio();
+            Articulo articulo = (Articulo)Session["articulo"];
+            Usuario usuario = (Usuario)Session["Usuario"];
+
+            try
+            {
+                if ((bool)Session["FavoritoAlmacenado"])
+                {
+                    negocio.Eliminar(articulo.Id);
+                }
+                else
+                {
+                    negocio.Agregar(articulo.Id, usuario.Id);
+                }
             }
             catch (Exception ex)
             {

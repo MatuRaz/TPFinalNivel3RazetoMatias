@@ -122,7 +122,7 @@
             </div>
             <div class="mb-3">
                 <label for="txbUrlImagen" class="form-label">Url imagen</label>
-                <asp:TextBox ID="txbUrlImagen" ClientIDMode="Static" CssClass="form-control" MaxLength="999" runat="server" />
+                <asp:TextBox ID="txbUrlImagen" ClientIDMode="Static" CssClass="form-control" MaxLength="999" AutoPostBack="true" OnTextChanged="txbUrlImagen_TextChanged" runat="server" />
             </div>
             <div class="mb-3">
                 <label for="txbPrecio" class="form-label">Precio</label>

@@ -13,5 +13,10 @@ namespace Vista
         {
             lblError.Text = Session["Error"].ToString();
         }
+
+        protected void btnRegresar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx");
+        }
     }
 }

@@ -29,6 +29,11 @@ namespace Vista
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
 
+            if (!(SeguridadNegocio.EsAdmin(Session["Usuario"])))
+            {
+                Session.Add("Error", "Se requiere permisos de admin para esta pantalla");
+                Response.Redirect("Error.aspx");
+            }
 
             if (chkFiltroAvanzado.Checked)
             {

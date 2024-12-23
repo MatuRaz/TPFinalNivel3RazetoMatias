@@ -39,10 +39,13 @@
                     <div class="mt-1">
                     </div>
                     <div class="col">
+                        <%if (Negocio.SeguridadNegocio.SesionActiva(Session["Usuario"]))
+                            {%>
                         <div class="col mb-3">
                             <label class="form-check-label" for="chkFavorito">⭐ Agregar a Favorito</label>
-                            <asp:CheckBox ID="chkFavorito" Text="" runat="server" />
+                            <asp:CheckBox ID="chkFavorito" OnCheckedChanged="chkFavorito_CheckedChanged" AutoPostBack="true" Text="" runat="server" />
                         </div>
+                        <%} %>
                     </div>
                 </div>
                 <div class="col mt-5 shadow alert alert-dark">

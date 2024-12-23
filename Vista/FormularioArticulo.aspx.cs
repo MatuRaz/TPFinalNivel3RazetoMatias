@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.WebRequestMethods;
 
 namespace Vista
 {
@@ -20,6 +21,7 @@ namespace Vista
 
             if (!IsPostBack)
             {
+                urlImagen.ImageUrl = "https://th.bing.com/th/id/R.3708994bdca38cd8dbea509f233f3cf4?rik=p1v2LkWH17fSEg&pid=ImgRaw&r=0";
                 string id = Request.QueryString["id"] != null ? Request.QueryString["iD"] : "";
                 Session.Add("id", id);
 
@@ -109,8 +111,6 @@ namespace Vista
                     Session.Add("mensajeN", true);
                     Response.Redirect("ListaArticulos.aspx", false);
                 }
-
-                //System.Threading.Thread.Sleep(2000);
             }
             catch (Exception ex)
             {
@@ -119,7 +119,6 @@ namespace Vista
             }
 
         }
-
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
@@ -130,6 +129,14 @@ namespace Vista
             Session.Add("mensajeE", eliminar);
             Session.Add("ArticuloEliminado", true);
             Response.Redirect("ListaArticulos.aspx");
+        }
+
+        protected void txbUrlImagen_TextChanged(object sender, EventArgs e)
+        {
+            if (txbUrlImagen.Text != "")
+                urlImagen.ImageUrl = txbUrlImagen.Text;
+            else
+                urlImagen.ImageUrl = "https://th.bing.com/th/id/R.3708994bdca38cd8dbea509f233f3cf4?rik=p1v2LkWH17fSEg&pid=ImgRaw&r=0";
         }
     }
 }

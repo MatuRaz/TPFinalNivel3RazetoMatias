@@ -68,8 +68,8 @@ namespace Negocio
                 datos.SetearParametros("@Descripcion", nuevo.Descripcion);
                 datos.SetearParametros("@IdMarca", nuevo.Marca.Id);
                 datos.SetearParametros("@IdCategoria", nuevo.Categoria.Id);
-                datos.SetearParametros("ImagenUrl", nuevo.ImagenUrl);
-                datos.SetearParametros("Precio", nuevo.Precio);
+                datos.SetearParametros("@ImagenUrl", nuevo.ImagenUrl);
+                datos.SetearParametros("@Precio", nuevo.Precio);
 
                 datos.EjecutarAccion();
             }
