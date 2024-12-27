@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Dominio;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Net;
+
 
 namespace Negocio
 {
@@ -17,19 +21,21 @@ namespace Negocio
 
         public SqlDataReader Lector { get { return lector; } }
 
-        public AccesoDatos() 
+        public AccesoDatos()
         {
-            conexion = new SqlConnection("server=MATIASPC\\SQLEXPRESS; database=CATALOGO_WEB_DB; integrated security=true");
+            //conexion = new SqlConnection("server = MATIASPC\\SQLEXPRESS; database = CATALOGO_WEB_DB; integrated security = true");
+            conexion = new SqlConnection(ConfigurationManager.AppSettings["cadenaConexion"]);
+
             comando = new SqlCommand();
         }
 
-        public void SetearConsulta(string consuta) 
+        public void SetearConsulta(string consuta)
         {
             comando.CommandType = System.Data.CommandType.Text;
             comando.CommandText = consuta;
         }
 
-        public void EjecutarLectura() 
+        public void EjecutarLectura()
         {
             comando.Connection = conexion;
             try
@@ -60,14 +66,14 @@ namespace Negocio
             }
         }
 
-        public void SetearParametros(string nombre, object value) 
+        public void SetearParametros(string nombre, object value)
         {
             comando.Parameters.AddWithValue(nombre, value);
         }
 
-        public void CerrarConexion() 
+        public void CerrarConexion()
         {
-            if(conexion != null)
+            if (conexion != null)
                 conexion.Close();
         }
 

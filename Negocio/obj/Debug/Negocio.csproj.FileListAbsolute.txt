@@ -25,3 +25,5 @@ C:\Users\Usuario\Desktop\Tp-Final\Repo\Negocio\obj\Debug\Negocio.csproj.CoreComp
 C:\Users\Usuario\Desktop\Tp-Final\Repo\Negocio\obj\Debug\Negocio.csproj.Up2Date
 C:\Users\Usuario\Desktop\Tp-Final\Repo\Negocio\obj\Debug\Negocio.dll
 C:\Users\Usuario\Desktop\Tp-Final\Repo\Negocio\obj\Debug\Negocio.pdb
+C:\Users\Usuario\Desktop\Tp-Final\Repo\Negocio\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\Usuario\Desktop\Tp-Final\Repo\Negocio\bin\Debug\System.Configuration.ConfigurationManager.xml
