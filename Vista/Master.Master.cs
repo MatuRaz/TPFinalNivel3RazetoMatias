@@ -22,7 +22,7 @@ namespace Vista
                     imgPerfil.ImageUrl = "~/Images/" + user.urlImagenPerfil + "?" + DateTime.Now;
                 else
                     imgPerfil.ImageUrl = "https://th.bing.com/th/id/R.3708994bdca38cd8dbea509f233f3cf4?rik=p1v2LkWH17fSEg&pid=ImgRaw&r=0";
-                
+
                 lblMail.Text = user.Email;
             }
             else

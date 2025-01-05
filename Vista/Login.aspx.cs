@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
 
 namespace Vista
 {
@@ -18,8 +19,6 @@ namespace Vista
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-
-
             Usuario user = new Usuario();
             UsuarioNegocio negocio = new UsuarioNegocio();
 
@@ -47,7 +46,10 @@ namespace Vista
                 Session.Add("Error", ex);
                 Response.Redirect("Error.aspx");
             }
-
         }
+
+
+
+
     }
 }

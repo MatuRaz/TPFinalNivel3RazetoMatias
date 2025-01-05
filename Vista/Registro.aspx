@@ -46,7 +46,7 @@
             </div>
             <div class="mb-3">
                 <label for="txbContraseña" class="form-label">Contraseña</label>
-                <asp:TextBox ID="txbContraseña" CssClass="form-control" placeholder="*******" TextMode="Password" ClientIDMode="Static" runat="server" />
+                <asp:TextBox ID="txbContraseña" CssClass="form-control" placeholder="*******" TextMode="Password" ClientIDMode="Static" AutoPostBack="false" runat="server" />
             </div>
             <asp:Button ID="btnRegistro" Text="Registrate" CssClass="btn btn-primary" OnClick="btnRegistro_Click" OnClientClick="return Validar()" runat="server" />
         </div>

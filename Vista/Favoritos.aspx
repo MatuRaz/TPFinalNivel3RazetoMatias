@@ -17,6 +17,7 @@
                                     <h5 class="card-title"><%# Eval("Nombre")%></h5>
                                     <p class="card-text mb-4">Marca: <%# Eval("Marca") %></p>
                                     <p class="card-text blockquote-footer">Precio: <%# Eval("Precio") %></p>
+
                                 </div>
                                 <div class="row">
                                     <div class="col">

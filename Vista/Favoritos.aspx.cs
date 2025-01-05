@@ -19,6 +19,7 @@ namespace Vista
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            ArticuloNegocio negocioA = new ArticuloNegocio();
             if (!SeguridadNegocio.SesionActiva(Session["Usuario"]))
                 Response.Redirect("Login.aspx");
             FavoritoNegocio negocio = new FavoritoNegocio();
@@ -30,8 +31,7 @@ namespace Vista
                 if (!IsPostBack)
                 {
                     ListaFavoritos = negocio.Listar(user.Id);
-
-                    ListaArticulos = (List<Articulo>)Session["ListaArticulo"];
+                    ListaArticulos = negocioA.Listar();
                     for (int i = 0; i < ListaFavoritos.Count; i++)
                     {
                         FiltroRapido = ListaArticulos.FindAll(x => x.Id == ListaFavoritos[i].IdArticulo);
